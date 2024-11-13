@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.7'
+    id 'io.spring.dependency-management' version '1.1.6'
+    id 'java'
+}
+
+group = 'com.profile.protection'
+version = '0.0.1'
+
+tasks.bootJar {
+    archiveFileName.set('profile-protection.jar')
+}
+
+java {
+    sourceCompatibility = '21'
+}
+
+ext {
+    set('springCloudVersion', "2023.0.3")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
