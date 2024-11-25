@@ -17,21 +17,22 @@ spring:
     init:
       platform: org.hibernate.dialect.PostgreSQL95Dialect
 
-profile-protection:
-  dataClasses:
-    - name: USER_INFO
-      activeVersionName: version-1
-      versions:
-        - versionName: version-1
-          algorithmName: Encrypt_AES_CBC_PKCS5Padding
-          encryptAlgorithmName: AES/CBC/PKCS5Padding
-          encryptKeyName: user
-          encryptKeyVersion: 1
-    - name: SAMPLE_ENCRYPTION
-      activeVersionName: version-1
-      versions:
-        - versionName: version-1
-          algorithmName: Encrypt_AES_CBC_PKCS5Padding
-          encryptAlgorithmName: AES/CBC/PKCS5Padding
-          encryptKeyName: user_aes
-          encryptKeyVersion: 1
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      failureRateThreshold: 50
+      waitDurationInOpenState: 5s
+  instances:
+    myService:
+      baseConfig: default
+
+resilience4j.retry:
+  configs:
+    default:
+      maxAttempts: 3
+      waitDuration: 1s
+  instances:
+    myService:
+      baseConfig: default

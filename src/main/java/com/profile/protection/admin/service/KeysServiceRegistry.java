@@ -1,27 +1,34 @@
 package com.profile.protection.admin.service;
 
-import org.springframework.stereotype.Component;
+import io.github.resilience4j.retry.annotation.Retry;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
-@Component
+@Service
 public class KeysServiceRegistry {
 
-    private final Map<String, KeysService> keysServices = new HashMap<>();
-
-    public void register(String forDataType, KeysService keysService) {
-        if (keysServices.containsKey(forDataType)) {
-            throw new IllegalArgumentException("Keys service already registered for " + forDataType);
+    @TimeLimiter(name = "controller")
+    @CircuitBreaker(name = "myService", fallbackMethod = "circuitBreakerFallback")
+    @Retry(name = "myService", fallbackMethod = "retryFallback")
+    public void process(String forDataType) {
+        try {
+            Thread.sleep(40000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
-        keysServices.put(forDataType, keysService);
     }
 
-    // later you'll use this method to get the desired service for given data type
-    public KeysService provide(String forDataType) {
-        return Optional.ofNullable(keysServices.get(forDataType))
-                .orElseThrow(() -> new IllegalArgumentException("Keys service not found for " + forDataType));
+    // Fallback method for CircuitBreaker
+    public String circuitBreakerFallback(Throwable t) {
+        return "Circuit breaker fallback: " + t.getMessage();
     }
+
+    // Fallback method for Retry
+    public String retryFallback(Throwable t) {
+        return "Retry fallback: " + t.getMessage();
+    }
+
 }

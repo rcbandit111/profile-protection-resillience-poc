@@ -26,6 +26,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -36,6 +37,8 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-ui:1.8.0'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.wiremock:wiremock:3.9.2'
+
 }
 
 dependencyManagement {
