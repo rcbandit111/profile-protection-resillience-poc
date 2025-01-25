@@ -30,6 +30,7 @@ public class UserController {
 
     /**
      * Create user request
+     * <p>
      * {
      *     "loginName": "logv3ei64yynName",
      *     "fullName": "fu3lflb6Nyame",
@@ -63,12 +64,47 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Get user request
+     * <p>
+     * GET http://localhost:8080/user/74d6c47c-7cb3-43d1-9308-c326cac8ccf6
+     */
     @GetMapping("/{uuid}")
     public ResponseEntity<Object> get(@PathVariable("uuid") UUID uuid) {
         Optional<Users> users = userService.get(uuid);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    /**
+     * Update user
+     * <p>
+     * {
+     *     "loginName": "logv3ei64yynName",
+     *     "fullName": "fu3lflb6Nyame",
+     *     "email": "eym3jfv5abil",
+     *     "password": "pvassword",
+     *     "pmleId": 1202534,
+     *     "status": "ENABLED",
+     *     "roles": [
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "BRANDOPTIMAL",
+     *           "projectType": "FCN"
+     *         }
+     *       ]
+     * }
+     */
     @PatchMapping("/")
     public ResponseEntity<Object> update(@Valid @RequestBody UserRequestDto dto) {
         Optional<Users> users = userService.update(dto);
