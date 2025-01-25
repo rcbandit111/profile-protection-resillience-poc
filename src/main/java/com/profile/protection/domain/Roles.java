@@ -19,7 +19,7 @@ public class Roles {
   @GeneratedValue
   private UUID id;
 
-  @Column(name = "user_id", nullable = false)
+  @Column(name = "user_id")
   private UUID userId;
 
   @Column(name = "role_code", nullable = false)
