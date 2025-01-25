@@ -2,11 +2,15 @@ package com.profile.protection.admin.controller;
 
 import com.profile.protection.admin.dto.UserRequestDto;
 import com.profile.protection.admin.service.UserService;
+import com.profile.protection.domain.Users;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -24,10 +28,50 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    /**
+     * Create user request
+     * {
+     *     "loginName": "logv3ei64yynName",
+     *     "fullName": "fu3lflb6Nyame",
+     *     "email": "eym3jfv5abil",
+     *     "password": "pvassword",
+     *     "pmleId": 1202534,
+     *     "status": "ENABLED",
+     *     "roles": [
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "VIEW",
+     *           "projectType": "CRM"
+     *         },
+     *         {
+     *           "roleCode": "BRANDOPTIMAL",
+     *           "projectType": "FCN"
+     *         }
+     *       ]
+     * }
+     */
     @PostMapping("/")
     public ResponseEntity<Object> create(@Valid @RequestBody UserRequestDto dto) {
         userService.create(dto);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<Object> get(@PathVariable("uuid") UUID uuid) {
+        Optional<Users> users = userService.get(uuid);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @PatchMapping("/")
+    public ResponseEntity<Object> update(@Valid @RequestBody UserRequestDto dto) {
+        Optional<Users> users = userService.update(dto);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

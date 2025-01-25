@@ -1,6 +1,7 @@
 package com.profile.protection.admin.service;
 
 import com.profile.protection.admin.dto.UserRequestDto;
+import com.profile.protection.admin.mapper.UserAssembler;
 import com.profile.protection.domain.Roles;
 import com.profile.protection.repository.RolesRepository;
 import com.profile.protection.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,9 +23,12 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private RolesRepository rolesRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RolesRepository rolesRepository) {
+    private UserAssembler userAssembler;
+
+    public UserServiceImpl(UserRepository userRepository, RolesRepository rolesRepository, UserAssembler userAssembler) {
         this.userRepository = userRepository;
         this.rolesRepository = rolesRepository;
+        this.userAssembler = userAssembler;
     }
 
     @Override
@@ -52,6 +57,16 @@ public class UserServiceImpl implements UserService {
 
 
         return Optional.of(insertedUser);
+    }
+
+    @Override
+    public Optional<Users> get(UUID uuid) {
+        return userRepository.findById(uuid);
+    }
+
+    @Override
+    public Optional<Users> update(UserRequestDto dto) {
+        return Optional.empty();
     }
 
     // Test for circuitBreaker
