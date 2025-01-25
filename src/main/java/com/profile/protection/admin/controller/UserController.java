@@ -105,9 +105,9 @@ public class UserController {
      *       ]
      * }
      */
-    @PatchMapping("/")
-    public ResponseEntity<Object> update(@Valid @RequestBody UserRequestDto dto) {
-        Optional<Users> users = userService.update(dto);
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable UUID id, @RequestBody UserRequestDto userRequestDto) {
+        Optional<Users> users = userService.update(id, userRequestDto);
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 }

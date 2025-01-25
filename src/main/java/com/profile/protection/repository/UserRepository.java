@@ -12,6 +12,5 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<Users, UUID>, JpaSpecificationExecutor<Users>  {
 
-    @EntityGraph(attributePaths = "roles")
     Optional<Users> findById(UUID id);
 }

@@ -15,5 +15,5 @@ public interface UserService {
 
     Optional<Users> get(UUID uuid);
 
-    Optional<Users> update(@Valid UserRequestDto dto);
+    Optional<Users> update(UUID id, UserRequestDto dto);
 }

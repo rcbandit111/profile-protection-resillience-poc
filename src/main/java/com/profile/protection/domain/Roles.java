@@ -1,13 +1,13 @@
 package com.profile.protection.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,11 +17,10 @@ public class Roles {
 
   @Id
   @GeneratedValue
-  private UUID id; // Unique ID for each role
+  private UUID id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id")  // This column maps to the Users' ID column
-  private Users user;
+  @Column(name = "user_id", nullable = false)
+  private UUID userId;
 
   @Column(name = "role_code", nullable = false)
   private String roleCode;

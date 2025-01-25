@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         Users users = Users.builder()
                 .email(dto.getEmail())
                 .loginName(dto.getLoginName())
-                .fullName(dto.getFullName())
                 .password(dto.getPassword())
                 .createdAt(OffsetDateTime.now())
                 .build();
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
         List<Roles> rolesList = dto.getRoles().stream()
                 .map(roleDto -> Roles.builder()
-                        .user(insertedUser)
+                        .userId(insertedUser.getId())
                         .roleCode(roleDto.getRoleCode())
                         .projectType(roleDto.getProjectType())
                         .createdAt(OffsetDateTime.now())
@@ -65,8 +64,51 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<Users> update(UserRequestDto dto) {
-        return Optional.empty();
+    public Optional<Users> update(UUID id, UserRequestDto userRequestDto) {
+        return Optional.ofNullable(userRepository.findById(id)
+                .map(existingUser -> {
+                    existingUser.setLoginName(userRequestDto.getLoginName());
+                    existingUser.setEmail(userRequestDto.getEmail());
+                    existingUser.setPassword(userRequestDto.getPassword());
+                    existingUser.setModifiedAt(OffsetDateTime.now());
+
+                    // Update roles logic
+                    List<Roles> updatedRoles = userRequestDto.getRoles().stream()
+                            .map(roleDto -> Roles.builder()
+                                    .userId(existingUser.getId())
+                                    .roleCode(roleDto.getRoleCode())
+                                    .projectType(roleDto.getProjectType())
+                                    .createdAt(existingUser.getCreatedAt())
+                                    .modifiedAt(OffsetDateTime.now())
+                                    .build())
+                            .collect(Collectors.toList());
+
+                    // Remove existing roles and replace with new ones
+                    existingUser.getRoles().clear();
+                    existingUser.getRoles().addAll(updatedRoles);
+
+                    return userRepository.saveAndFlush(existingUser);
+                })
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id)));
+    }
+
+    private Users mapToEntity(UserRequestDto dto) {
+        return Users.builder()
+                .loginName(dto.getLoginName())
+                .password(dto.getPassword())
+                .email(dto.getEmail())
+//                .status(dto.getStatus())
+                .roles(dto.getRoles().stream()
+                        .map(roleDto -> Roles.builder()
+                                .roleCode(roleDto.getRoleCode())
+                                .projectType(roleDto.getProjectType())
+                                .createdAt(OffsetDateTime.now())
+                                .modifiedAt(OffsetDateTime.now())
+                                .build())
+                        .collect(Collectors.toList()))
+                .createdAt(OffsetDateTime.now())
+                .modifiedAt(OffsetDateTime.now())
+                .build();
     }
 
     // Test for circuitBreaker

@@ -23,25 +23,19 @@ public class Users {
   @Column(name = "login_name", unique = true, nullable = false)
   private String loginName;
 
-  @Column(name = "full_name", nullable = false)
-  private String fullName;
-
   @Column(name = "password", nullable = false)
   private String password;
 
-  @Column(name = "name")
-  private String name;
-
   @Column(name = "email", unique = true, nullable = false)
   private String email;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
+  private List<Roles> roles;
 
   @Column(name = "created_at")
   private OffsetDateTime createdAt;
 
   @Column(name = "modified_at")
   private OffsetDateTime modifiedAt;
-
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  private List<Roles> roles; // One-to-many relationship with Roles
-
 }

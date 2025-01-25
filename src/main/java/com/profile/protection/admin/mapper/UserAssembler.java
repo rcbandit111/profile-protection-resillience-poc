@@ -24,7 +24,6 @@ public class UserAssembler {
                 // skip password
                 .email(user.getEmail())
                 .loginName(user.getLoginName())
-                .fullName(user.getFullName())
                 .createdAt(user.getCreatedAt())
                 .modifiedAt(user.getModifiedAt())
                 // map roles here
