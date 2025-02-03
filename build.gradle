@@ -12,7 +12,7 @@ tasks.bootJar {
 }
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = '18'
 }
 
 ext {
