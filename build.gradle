@@ -12,7 +12,7 @@ tasks.bootJar {
 }
 
 java {
-    sourceCompatibility = '21'
+    sourceCompatibility = '18'
 }
 
 ext {
@@ -21,7 +21,10 @@ ext {
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
+
+String resilience4jVersion = '2.4.0-SNAPSHOT'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -43,6 +46,23 @@ dependencies {
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'  // non-reactive
+
+    // implementation 'org.springframework.boot:spring-boot-starter-web'  // reactive
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    implementation "io.github.resilience4j:resilience4j-spring6:$resilience4jVersion"
+    implementation "io.github.resilience4j:resilience4j-retry:$resilience4jVersion"
+    implementation "io.github.resilience4j:resilience4j-core:$resilience4jVersion"
+
+    implementation 'io.vavr:vavr-jackson:0.10.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
 
 }
 
