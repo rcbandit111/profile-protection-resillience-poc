@@ -44,14 +44,14 @@ dependencies {
 
 
     implementation 'org.springframework.boot:spring-boot-starter-web'  // non-reactive
-    // implementation 'org.springframework.boot:spring-boot-starter-web'  // reactive
 
+    // implementation 'org.springframework.boot:spring-boot-starter-web'  // reactive
     implementation 'org.springframework.boot:spring-boot-starter'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-    implementation "io.github.resilience4j:resilience4j-spring:$resilience4jVersion"
+    implementation "io.github.resilience4j:resilience4j-spring6:$resilience4jVersion"
     implementation "io.github.resilience4j:resilience4j-retry:$resilience4jVersion"
     implementation "io.github.resilience4j:resilience4j-core:$resilience4jVersion"
 
