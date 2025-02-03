@@ -42,6 +42,23 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     testImplementation 'org.wiremock:wiremock:3.9.2'
 
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'  // non-reactive
+    // implementation 'org.springframework.boot:spring-boot-starter-web'  // reactive
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+    implementation "io.github.resilience4j:resilience4j-spring:$resilience4jVersion"
+    implementation "io.github.resilience4j:resilience4j-retry:$resilience4jVersion"
+    implementation "io.github.resilience4j:resilience4j-core:$resilience4jVersion"
+
+    implementation 'io.vavr:vavr-jackson:0.10.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+
 }
 
 dependencyManagement {
