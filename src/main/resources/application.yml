@@ -1,21 +1,9 @@
 spring:
-  datasource:
-    dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://123.123.123.123:5432/test?currentSchema=default
-    connectionTimeout: 10000
-    maxLifetime: 18000000
-    maximumPoolSize: 10
-    username: test
-    password: test
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    database: postgresql
-  sql:
-    init:
-      platform: org.hibernate.dialect.PostgreSQL95Dialect
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
 
 resilience4j.circuitbreaker:
   configs:
