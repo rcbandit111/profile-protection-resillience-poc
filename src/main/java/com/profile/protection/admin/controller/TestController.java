@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/profile", produces = MediaType.APPLICATION_JSON_VALUE)
-public class EncryptionController {
+public class TestController {
 
     private final KeysServiceRegistry keysServiceRegistry;
 
-    public EncryptionController(KeysServiceRegistry keysServiceRegistry) {
+    public TestController(KeysServiceRegistry keysServiceRegistry) {
         this.keysServiceRegistry = keysServiceRegistry;
     }
 
