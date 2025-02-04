@@ -17,8 +17,8 @@ public class EncryptionController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<Object> encrypt() {
-        keysServiceRegistry.process(null);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<String> encrypt() {
+        String response = keysServiceRegistry.process(null);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

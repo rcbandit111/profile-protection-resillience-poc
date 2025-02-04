@@ -1,7 +1,7 @@
 package com.profile.protection.admin.service;
 
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.retry.annotation.Retry;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.springframework.stereotype.Service;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -9,16 +9,11 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 @Service
 public class KeysServiceRegistry {
 
-    @TimeLimiter(name = "controller")
+    @Bulkhead(name = "controller", type = Bulkhead.Type.THREADPOOL)
     @CircuitBreaker(name = "myService", fallbackMethod = "circuitBreakerFallback")
     @Retry(name = "myService", fallbackMethod = "retryFallback")
-    public void process(String forDataType) {
-        try {
-            Thread.sleep(40000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
+    public String process(String forDataType) {
+        return "sleeping";
     }
 
     // Fallback method for CircuitBreaker

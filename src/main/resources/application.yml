@@ -36,3 +36,15 @@ resilience4j.retry:
   instances:
     myService:
       baseConfig: default
+
+resilience4j:
+  thread-pool-bulkhead:
+    instances:
+      controller:
+        maxThreadPoolSize: 5
+        coreThreadPoolSize: 2
+        queueCapacity: 10
+
+
+
+
